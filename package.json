@@ -1,0 +1,23 @@
+{
+  "name": "conman",
+  "version": "1.0.0",
+  "description": "\"# gp-conman\"",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rb531/gp-conman.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rb531/gp-conman/issues"
+  },
+  "homepage": "https://github.com/rb531/gp-conman#readme"
+}
