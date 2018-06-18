@@ -1,3 +1,6 @@
+//var registration = require('../lib/registration')
+//var signin = require('../')
+
 module.exports = {
     signin: function (req, res) {
         var body = req.body;
@@ -12,7 +15,7 @@ module.exports = {
 
         // call db access layer
 
-        
+        // 
     },
     register: function (req, res) {
         
