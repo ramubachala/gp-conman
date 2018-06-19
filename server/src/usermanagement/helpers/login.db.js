@@ -25,9 +25,10 @@ obj.init = function (dbString, cb) {
 
 obj.findUser = function (input, cb) {
     // execute the query at a later time
-    var query = obj.UserModel.find().exec();
+    var query = obj.UserModel.find(input).exec();
     query.then(function(docs) {
         console.log('d', docs);
+        cb();
     }, function(err) {
         console.log('Err', err);
     });
@@ -47,7 +48,7 @@ obj.saveUserInfo = function (user, finalCb) {
     async.waterfall([
         function (next) {
             commonLib.generateUserId(user.username, function (data) {
-                next(data);
+                next(null, data);
             });
         },
         function (data, next) {
@@ -58,7 +59,15 @@ obj.saveUserInfo = function (user, finalCb) {
                 u.lastname = user.lastname;
                 u.email = user.email;
                 var userObj = new obj.UserModel(u);
-                userObj.save(next);
+                userObj.save((err)=> {
+                    if (err) {
+                        console.log('error while saving data', err);
+                        next(err);
+                    } else {
+                        next(null, u);
+                    }
+                    
+                });
             });
         }
     ], finalCb)

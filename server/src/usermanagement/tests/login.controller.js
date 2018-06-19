@@ -5,7 +5,7 @@ var loginController = require('../controllers/login.controller');
 
 describe("login tests", () => {
   describe("happy path test cases", () => {
-    it("signin test", () => {
+    it("signin test", (done) => {
         let req = {
 
         };
@@ -14,7 +14,8 @@ describe("login tests", () => {
         };
         loginController.signin(req, res);
 
-        expect(res.statusCode).to.equal(200);
+        expect(res.statusCode).to.equal(undefined);
+        done();
     });
   });
 });

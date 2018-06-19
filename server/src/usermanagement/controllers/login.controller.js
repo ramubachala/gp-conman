@@ -3,10 +3,7 @@
 
 module.exports = {
     signin: function (req, res) {
-        var body = req.body;
-        var user = body.username;
-        var password = body.password;
-
+        
         // cache first
 
         // check in db

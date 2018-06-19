@@ -4,7 +4,7 @@ const expect = chai.expect;
 var dblogin = require('../helpers/login.db');
 
 //Set up default mongoose connection
-var mongoDB = 'mongodb://admin:admin@127.0.0.1:27017/conman';
+var mongoDB = 'mongodb://accountUser:password@127.0.0.1:27017/conman';
 
 
 describe('login db tests', () => {
@@ -30,11 +30,14 @@ describe('login db tests', () => {
         user.firstname = "firstnam1"
         user.lastname = "lastname";
         
-        dblogin.saveUserInfo(user, function(err, userid) {
-            console.log(err)
-            console.log('user saved in db.')
-            console.log(userid);
-            dblogin.findUser({_id: userid}, (err,data)=> {
+        dblogin.saveUserInfo(user, function(err, u) {
+            if (err) {
+                console.log("error saving in db", err);
+                return;
+            }
+            console.log('user saved in db.', u)
+           
+            dblogin.findUser({userid: u.userid}, (err,data)=> {
                 console.log(err, data)
                 done();
             })
