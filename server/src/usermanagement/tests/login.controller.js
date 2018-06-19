@@ -1,7 +1,7 @@
 const chai = require("chai");
 const expect = chai.expect;
 
-var loginController = require('../login.controller');
+var loginController = require('../controllers/login.controller');
 
 describe("login tests", () => {
   describe("happy path test cases", () => {

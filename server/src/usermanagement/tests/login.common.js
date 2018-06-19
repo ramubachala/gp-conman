@@ -1,7 +1,7 @@
 const chai = require("chai");
 const expect = chai.expect;
 
-var common = require("../login.common");
+var common = require("../helpers/login.common");
 
 describe("login common helper tests", () => {
   it("should take user and password and hash it", (done) => {

@@ -38,4 +38,4 @@ var UserModelSchema = new Schema({
 });
 
 //Export function to create "SomeModel" model class
-module.exports = mongoose.model("UserModel", UserModelSchema);
+module.exports = mongoose.model("UserModel", UserModelSchema, "UserModel");

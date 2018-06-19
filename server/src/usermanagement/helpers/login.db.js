@@ -1,13 +1,13 @@
 
 const mongoose = require('mongoose');
-const commonLib = require('./login.common');
-var UserModel = require('./models/usermodel');
-var async = require('async');
+const commonLib = require('../helpers/login.common');
 
+var async = require('async');
 var obj = {}
 
 obj.db = {}
-obj.init = function (dbString) {
+obj.UserModel = {}
+obj.init = function (dbString, cb) {
     mongoose.connect(dbString);
     // Get Mongoose to use the global promise library
     mongoose.Promise = global.Promise;
@@ -15,6 +15,22 @@ obj.init = function (dbString) {
     obj.db = mongoose.connection;
     //Bind connection to error event (to get notification of connection errors)
     obj.db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+    obj.db.on('open', ()=> {
+        console.log('successful connection')
+        obj.UserModel = require('../models/usermodel');
+        cb();
+    });
+}
+
+
+obj.findUser = function (input, cb) {
+    // execute the query at a later time
+    var query = obj.UserModel.find().exec();
+    query.then(function(docs) {
+        console.log('d', docs);
+    }, function(err) {
+        console.log('Err', err);
+    });
 }
 
 obj.saveUserInfo = function (user, finalCb) {
@@ -27,21 +43,21 @@ obj.saveUserInfo = function (user, finalCb) {
     var u = {};
 
     u.username = user.username;
-    
+
     async.waterfall([
-        function(next) {
+        function (next) {
             commonLib.generateUserId(user.username, function (data) {
                 next(data);
             });
         },
-        function(data, next) {
+        function (data, next) {
             u.userid = data;
             commonLib.hashit(u.userid, user.password, function (pwd) {
                 u.passwordhash = pwd;
                 u.firstname = user.firstname;
                 u.lastname = user.lastname;
                 u.email = user.email;
-                var userObj = new UserModel(u);
+                var userObj = new obj.UserModel(u);
                 userObj.save(next);
             });
         }
