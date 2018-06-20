@@ -16,7 +16,6 @@ obj.init = function (dbString, cb) {
     //Bind connection to error event (to get notification of connection errors)
     obj.db.on('error', console.error.bind(console, 'MongoDB connection error:'));
     obj.db.on('open', ()=> {
-        console.log('successful connection')
         obj.UserModel = require('../models/usermodel');
         cb();
     });
@@ -27,11 +26,15 @@ obj.findUser = function (input, cb) {
     // execute the query at a later time
     var query = obj.UserModel.find(input).exec();
     query.then(function(docs) {
-        console.log('d', docs);
-        cb();
+        //console.log('d', docs);
+        cb(null, docs);
     }, function(err) {
-        console.log('Err', err);
+        cb(err);
     });
+}
+
+obj.clearLoginDbCollection = function(cb) {
+    obj.db.db.dropCollection('UserModel', cb);
 }
 
 obj.saveUserInfo = function (user, finalCb) {

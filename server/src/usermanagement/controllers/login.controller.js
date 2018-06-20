@@ -1,29 +1,39 @@
 //var registration = require('../lib/registration')
 //var signin = require('../')
 
-module.exports = {
-    signin: function (req, res) {
-        
-        // cache first
+var obj = {};
 
-        // check in db
+obj.register = function(req, res) {
+  var body = req.body;
+  var user = {};
 
-        // which db? does it matter?
+  var username = body.username;
+  var password = body.password;
+  var email = body.email;
+  var firstname = body.firstname;
+  var lastname = body.lastname;
 
-        // call db access layer
+  // instrumentation
 
-        // 
+  // eventing
+
+  var dbHelper = require("../helpers/dbHelper");
+
+  dbHelper.then(
+    function onsuccess(dblogin) {
+      dblogin.saveUserInfo(user, function(err, u) {
+        if (err) {
+          console.log("error saving in db", err);
+          return;
+        }
+        console.log("user saved in db.");
+      });
     },
-    register: function (req, res) {
-        
-    },
-    signout: function (req, res) {
-        
-    },
-    profile_update: function (req, res) {
-        
-    },
-    password_reset: function (req, res) {
-        
+    function onFailure() {
+      // set the status code for the response correctly on a failure and return to client.
+      res.status();
     }
-}
+  );
+};
+
+module.exports = obj;
