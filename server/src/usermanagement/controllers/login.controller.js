@@ -7,31 +7,36 @@ obj.register = function(req, res) {
   var body = req.body;
   var user = {};
 
-  var username = body.username;
-  var password = body.password;
-  var email = body.email;
-  var firstname = body.firstname;
-  var lastname = body.lastname;
+  user.username = body.username;
+  user.password = body.password;
+  user.email = body.email;
+  user.firstname = body.firstname;
+  user.lastname = body.lastname;
 
   // instrumentation
 
   // eventing
 
-  var dbHelper = require("../helpers/dbHelper");
+  var dbFactory = require("../helpers/loginDbFactory");
 
-  dbHelper.then(
+  dbFactory.then(
     function onsuccess(dblogin) {
       dblogin.saveUserInfo(user, function(err, u) {
         if (err) {
           console.log("error saving in db", err);
+          res
+            .status(500)
+            .send("error saving user in db. username already exists");
           return;
         }
         console.log("user saved in db.");
+        res.send("OK");
       });
     },
     function onFailure() {
       // set the status code for the response correctly on a failure and return to client.
-      res.status();
+      console.log("error creating db login obj.");
+      res.status(500);
     }
   );
 };

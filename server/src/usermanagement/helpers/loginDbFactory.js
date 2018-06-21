@@ -12,10 +12,10 @@ var mongoDB = `mongodb://${username}:${password}@${server}:${port}/conman`;
 module.exports = new Promise((resolve, reject) => {
     dblogin.init(mongoDB, (err) => {
             if (err){
-                console.log('error initing the db');
+                console.log('error initing the db', err);
                 reject();
             }
-            console.log('db setup successful', result);
+            console.log('db setup successful');
             resolve(dblogin);
     });
 });
