@@ -1,4 +1,4 @@
-import {Store} from '../../flux/Store'
+import {Store} from '../../flux'
 import constants from '../../common/constants';
 export default class LoginStore extends Store {
     __onDispatch(action){
@@ -39,7 +39,8 @@ export default class LoginStore extends Store {
             firstname: '',
             lastname: '',
             email: '',
-            userid: ''
+            userid: '',
+            result: ''
         };
     }
 };

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Dispatcher from '../../flux/Dispatcher';
+import {Dispatcher} from '../../flux';
 import LoginStore from './LoginStore';
 
 export class RegistrationForm extends Component {
@@ -24,18 +24,32 @@ export class RegistrationForm extends Component {
                 type: event.target.id + '_update',
                 value: event.target.value
             };
-            console.log(action);
+            // console.log(action);
             this.registrationDispatcher.dispatch(action);
         }
 
-        handleSubmit(event) {
+        handleSubmit(e) {
             // post the form data to our express web api.
-            var action = {
-                type: event.target.id,
-                value: 'Register'
-            }
-            console.log(action);
-            event.preventDefault();
+            var myHeaders = new Headers();
+            myHeaders.append('Content-Type', 'application/json');
+            
+            var myInit = { method: 'POST',
+                           headers: myHeaders,
+                           mode: 'cors',
+                           cache: 'default',
+                           body: JSON.stringify(this.state) };
+            
+            var myRequest = new Request('/api/register');
+            console.log(myInit);
+            var c = this;
+            fetch(myRequest, myInit).then(function(response) {
+                c.setState({result: response.status})
+            }, function (error) {
+                c.setState({result: error})
+            });
+            // console.log(action);
+
+            e.preventDefault();
         }
   
         render() {
@@ -67,6 +81,8 @@ export class RegistrationForm extends Component {
                     </label>
                     <br/>
                     <input id="submit" type="submit" value="Register" />
+                    <br/>
+                    <h1 id="result">{this.state.result}</h1>
                 </form>
       );
     }

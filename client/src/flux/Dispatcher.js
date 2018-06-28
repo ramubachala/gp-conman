@@ -1,4 +1,4 @@
-export default class Dispatcher {
+export class Dispatcher {
     constructor() {
         this.__listeners = []
     }
