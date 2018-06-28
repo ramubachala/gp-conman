@@ -14,7 +14,7 @@ obj.register = function(req, res) {
   user.lastname = body.lastname;
 
   // instrumentation
-
+  console.log("got call for register", user);
   // eventing
 
   var dbFactory = require("../helpers/loginDbFactory");
@@ -30,7 +30,7 @@ obj.register = function(req, res) {
           return;
         }
         console.log("user saved in db.");
-        res.send("OK");
+        res.status(200).send("OK");
       });
     },
     function onFailure() {
